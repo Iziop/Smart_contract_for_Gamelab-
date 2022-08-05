@@ -73,6 +73,7 @@ export default function Contract({
           fn => fn.type === "function" && !(show && show.indexOf(fn.name) < 0),
         )
       : [];
+    console.log("function: ", results)
     return results;
   }, [contract, show]);
 

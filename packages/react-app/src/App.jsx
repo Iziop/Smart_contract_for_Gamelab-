@@ -55,7 +55,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -271,28 +271,28 @@ function App(props) {
   ]);
 
   // keep track of a variable from the contract in the local React state:
-  const balance = useContractReader(readContracts, "YourCollectible", "balanceOf", [address]);
+  const balance = useContractReader(readContracts, "Gamelab", "balanceOf", [address]);
   console.log("🤗 balance:", balance);
 
   // 📟 Listen for broadcast events
-  const transferEvents = useEventListener(readContracts, "YourCollectible", "Transfer", localProvider, 1);
+  const transferEvents = useEventListener(readContracts, "Gamelab", "Transfer", localProvider, 1);
   console.log("📟 Transfer events:", transferEvents);
 
   //
-  // 🧠 This effect will update yourCollectibles by polling when your balance changes
+  // 🧠 This effect will update Gamelabs by polling when your balance changes
   //
   const yourBalance = balance && balance.toNumber && balance.toNumber();
-  const [yourCollectibles, setYourCollectibles] = useState();
+  const [Gamelabs, setGamelabs] = useState();
 
   useEffect(() => {
-    const updateYourCollectibles = async () => {
+    const updateGamelabs = async () => {
       const collectibleUpdate = [];
       for (let tokenIndex = 0; tokenIndex < balance; tokenIndex++) {
         try {
           console.log("GEtting token index", tokenIndex);
-          const tokenId = await readContracts.YourCollectible.tokenOfOwnerByIndex(address, tokenIndex);
+          const tokenId = await readContracts.Gamelab.tokenOfOwnerByIndex(address, tokenIndex);
           console.log("tokenId", tokenId);
-          const tokenURI = await readContracts.YourCollectible.tokenURI(tokenId);
+          const tokenURI = await readContracts.Gamelab.tokenURI(tokenId);
           console.log("tokenURI", tokenURI);
 
           const ipfsHash = tokenURI.replace("https://ipfs.io/ipfs/", "");
@@ -311,9 +311,9 @@ function App(props) {
           console.log(e);
         }
       }
-      setYourCollectibles(collectibleUpdate);
+      setGamelabs(collectibleUpdate);
     };
-    updateYourCollectibles();
+    updateGamelabs();
   }, [address, yourBalance]);
 
   /*
@@ -638,17 +638,35 @@ function App(props) {
         },
       ],
     },
+    7: {
+      description: "Mystery Box! Opens soon!",
+      image: "https://i.etsystatic.com/19720034/r/il/380c28/2933510475/il_570xN.2933510475_snal.jpg",
+      name: "Mystery Box",
+      attributes: [
+        {
+          trait_type: "BackgroundColor",
+          value: "orange",
+        },
+        {
+          trait_type: "Eyes",
+          value: "googly",
+        },
+        {
+          trait_type: "Stamina",
+          value: 99,
+        },
+      ],
+    },
   };
 
   const mintItem = async () => {
     // upload to ipfs
     const uploaded = await ipfs.add(JSON.stringify(json[count]));
+    console.log("uploaded: ", uploaded);
     setCount(count + 1);
     console.log("Uploaded Hash: ", uploaded);
     const result = tx(
-      writeContracts &&
-        writeContracts.YourCollectible &&
-        writeContracts.YourCollectible.mintItem(address, uploaded.path),
+      writeContracts && writeContracts.Gamelab && writeContracts.Gamelab.mintItem(address, uploaded.path),
       update => {
         console.log("📡 Transaction Update:", update);
         if (update && (update.status === "confirmed" || update.status === 1)) {
@@ -681,7 +699,7 @@ function App(props) {
               }}
               to="/"
             >
-              YourCollectibles
+              Gamelabs
             </Link>
           </Menu.Item>
           <Menu.Item key="/transfers">
@@ -742,7 +760,7 @@ function App(props) {
             <div style={{ width: 640, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
               <List
                 bordered
-                dataSource={yourCollectibles}
+                dataSource={Gamelabs}
                 renderItem={item => {
                   const id = item.id.toNumber();
                   return (
@@ -781,7 +799,7 @@ function App(props) {
                         <Button
                           onClick={() => {
                             console.log("writeContracts", writeContracts);
-                            tx(writeContracts.YourCollectible.transferFrom(address, transferToAddresses[id], id));
+                            tx(writeContracts.Gamelab.transferFrom(address, transferToAddresses[id], id));
                           }}
                         >
                           Transfer
@@ -888,7 +906,7 @@ function App(props) {
           </Route>
           <Route path="/debugcontracts">
             <Contract
-              name="YourCollectible"
+              name="Gamelab"
               signer={userSigner}
               provider={localProvider}
               address={address}

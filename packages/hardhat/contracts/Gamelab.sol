@@ -7,17 +7,20 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract YourCollectible is
+contract Gamelab is
     ERC721,
     ERC721Enumerable,
     ERC721URIStorage,
     Ownable
 {
+
+    mapping (address => string[]) public ownership;
+
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("YourCollectible", "YCB") {}
+    constructor() ERC721("Gamelab", "YCB") {}
 
     function _baseURI() internal pure override returns (string memory) {
         return "https://ipfs.io/ipfs/";
@@ -29,6 +32,10 @@ contract YourCollectible is
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
         return tokenId;
+    }
+
+    function replaceMysteryToItem(uint256 tokenId, string memory uri) public {
+        _setTokenURI(tokenId, uri);
     }
 
     // The following functions are overrides required by Solidity.

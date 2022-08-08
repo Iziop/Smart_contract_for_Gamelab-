@@ -19,7 +19,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 */
 
 // Select the network you want to deploy to here:
-const defaultNetwork = "rinkeby";
+const defaultNetwork = "polytest";
 
 const mainnetGwei = 115;
 
@@ -103,11 +103,11 @@ module.exports = {
       },
     },
     polytest: {
-      url: "https://speedy-nodes-nyc.moralis.io/XXXXXXXXXXXXXXXXXXXXXXX/polygon/mumbai", // <---- YOUR MORALIS ID! (not limited to infura)
-      gasPrice: 1000000000,
-      accounts: {
-        mnemonic: mnemonic(),
-      },
+      url: "https://polygon-mumbai.g.alchemy.com/v2/qTK8iwB_-FAX7JjcquSBNKL15neiXcS3", // <---- YOUR INFURA ID! (or it won't work)
+      //    url: "https://speedy-nodes-nyc.moralis.io/XXXXXXXXXXXXXXXXXXXXXXX/eth/rinkeby", // <---- YOUR MORALIS ID! (not limited to infura)
+      accounts: [
+        `0xdc0ba7ce01d49ae7a8f9948c3936ff5beb06d0a640192602f93dadadf1ee85dd`,
+      ],
     },
 
     matic: {

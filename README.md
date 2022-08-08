@@ -1,4 +1,4 @@
-go app connects to rinkeby network via infura
-smart contract is deploying to rinkeby
+go app connects to mumbai network via alchemy
+smart contract is deploying to mumbai
 
 replaceMysteryToItem - method that "opens" mystery box

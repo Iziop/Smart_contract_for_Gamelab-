@@ -72,4 +72,22 @@ contract Gamelab is
     {
         return super.supportsInterface(interfaceId);
     }
+
+    /**
+   * Override isApprovedForAll to auto-approve OS's proxy contract
+   */
+    function isApprovedForAll(
+        address _owner,
+        address _operator
+    ) public override view returns (bool isOperator) {
+        // if OpenSea's ERC721 Proxy Address is detected, auto-return true
+        // for Polygon's Mumbai testnet, use 0xff7Ca10aF37178BdD056628eF42fD7F799fAc77c
+        if (_operator == address(0xff7Ca10aF37178BdD056628eF42fD7F799fAc77c)) {
+            return true;
+        }
+
+        // otherwise, use the default ERC721.isApprovedForAll()
+        return ERC721.isApprovedForAll(_owner, _operator);
+    }
+
 }

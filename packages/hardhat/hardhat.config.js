@@ -103,7 +103,7 @@ module.exports = {
       },
     },
     polytest: {
-      url: "https://polygon-mumbai.g.alchemy.com/v2/qTK8iwB_-FAX7JjcquSBNKL15neiXcS3", // <---- YOUR INFURA ID! (or it won't work)
+      url: "https://polygon-mainnet.g.alchemy.com/v2/3b5fsyVhCCEGlms_2cg8_PJbkT98ZihR", // <---- YOUR INFURA ID! (or it won't work)
       //    url: "https://speedy-nodes-nyc.moralis.io/XXXXXXXXXXXXXXXXXXXXXXX/eth/rinkeby", // <---- YOUR MORALIS ID! (not limited to infura)
       accounts: [
         `0xdc0ba7ce01d49ae7a8f9948c3936ff5beb06d0a640192602f93dadadf1ee85dd`,
